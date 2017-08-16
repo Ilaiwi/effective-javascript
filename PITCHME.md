@@ -58,7 +58,7 @@ _But what happens when_
 ```
 +++
 
-_Order has effect_
+*** _Order has effect_
 ```
 1 + 2 + "3"; // "33"
 (1 + 2) + "3"; // "33"
@@ -99,6 +99,7 @@ Objects can be converted to numbers via their `valueOf` method.
 ```
 
 +++
+### What happens when we run this
 ```
 var obj = {
     toString: function () {
@@ -138,3 +139,42 @@ function point(x, y) {
 }
 ```
 ---
+
+### Item 5: Avoid using == with Mixed Types
+
++++
+
+What happens when we run this
+
+```
+"1.0e0" == { valueOf: function() { return true; } };
+// true
+```
+
++++
+Be explicit and use `===`
+```
+var today = new Date();
+if (form.month.value == (today.getMonth() + 1) && form.day.value == today.getDate()) {
+    // happy birthday!
+    // ...
+}
+```
+
+```
+var today = new Date();
+if (+form.month.value === (today.getMonth() + 1) && // strict 
+    +form.day.value === today.getDate()) { // strict 
+        // happy birthday!
+        // ...
+}
+```
++++
+- When the two arguments are of the same type, there’s no difference in behavior between `==` and `===.`
+- using strict equality is a good way to make it clear to readers that there is no conversion involved in the comparison
+
++++
+
+#### Coercion rules
+
+[Table](./assets/rules.png)
