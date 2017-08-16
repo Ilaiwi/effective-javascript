@@ -475,3 +475,47 @@ alphabet; // "abcdefghijklmnopqrstuvwxyz"
 
 ---
 
+### Item 25: Use bind to Extract Methods with a Fixed Receiver
+
++++
+
+- A function’s receiver is determined by how it is called
+```
+var buffer = {
+    entries: [],
+    add: function (s) {
+        this.entries.push(s);
+    },
+    concat: function () {
+        return this.entries.join("");
+    }
+};
+var source = ["867", "-", "5309"];
+source.forEach(buffer.add); // error: entries is undefined
+```
+
+###### forEach uses the global object as the default receiver.
+
++++
+##### Solution
+```
+var source = ["867", "-", "5309"]; source.forEach(function(s) {
+    buffer.add(s);
+});
+buffer.join(); // "867-5309"
+```
+This version creates a wrapper function that explicitly calls `add` as a method of `buffer`.
+
++++
+
+#### `bind`
+
+Function objects come with a bind method that takes a receiver object and produces a wrapper function that calls the original function as a method of the receiver.
+
+```
+var source = ["867", "-", "5309"]; 
+source.forEach(buffer.add.bind(buffer)); 
+buffer.join(); // "867-5309"
+```
+
+###### Keep in mind that buffer.add.bind(buffer) creates a new function rather than modifying the buffer.add function.
