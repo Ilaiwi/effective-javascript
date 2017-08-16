@@ -56,6 +56,8 @@ _But what happens when_
 "2" + 3; // "23" 
 2 + "3"; // "23"
 ```
++++
+
 _Order has effect_
 ```
 1 + 2 + "3"; // "33"
@@ -90,9 +92,49 @@ b !== b; // false
 "the Math object: " + Math; // "the Math object: [object Math]" 
 "the JSON object: " + JSON; // "the JSON object: [object JSON]"
 ```
-Objects can be converted to numbers via their valueOf method.
+Objects can be converted to numbers via their `valueOf` method.
 ```
 "J" + { toString: function() { return "S"; } }; // 
 "JS" 2 * { valueOf: function() { return 3; } }; // 6
+```
+
++++
+```
+var obj = {
+    toString: function () {
+        return "[object MyObject]";
+    },
+    valueOf: function () {
+        return 17;
+    }
+};
+"object: " + obj; // ???
+```
++++
+
+### Answer
+
+`// "object: 17"`
+
++++
+
+### Truthiness coercion
+
+- `if`, `||`, and `&&` logically work with boolean values
+- Truthiness does not involve implicitly invoking any coercion methods
+
+- *falsy* values: `false`, `0`, `-0`, `""`, `NaN`, `null`, and `undefined`.
+- It is not always safe to use truthiness to check whether a function argument or object property is defined.
+
+```
+function point(x, y) {
+    if (typeof x === "undefined") {
+        x = 320;
+    }
+    if (typeof y === "undefined") {
+        y = 240;
+    }
+    return { x: x, y: y };
+}
 ```
 ---
