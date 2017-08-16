@@ -321,8 +321,8 @@ function wrapElements(a) {
     }
     return result;
 }
-var wrapped = wrapElements([10, 20, 30, 40, 50]); var 
-f = wrapped[0];
+var wrapped = wrapElements([10, 20, 30, 40, 50]);
+var f = wrapped[0];
 f(); // ?
 ```
 
@@ -354,7 +354,124 @@ function wrapElements(a) {
     }
     return result;
 }
-f = wrapped[0];
+var f = wrapped[0];
 f(); // 10
 ```
 _used an IIFE to create a local scope_
+
+---
+
+### Item 18: Function, Method, and Constructor Calls
+
++++
+
+##### Function
+
+```
+function hello(username) {
+    return "hello, " + username;
+}
+hello("Keyser Söze"); // "hello, Keyser Söze"
+
+```
+
++++
+
+##### Methods
+
+Object properties that happen to be functions
+
+
+```
+var obj = {
+    hello: function () {
+        return "hello, " + this.username;
+    },
+    username: "Hans Gruber"
+};
+obj.hello(); // "hello, Hans Gruber"
+```
+
+_Calling a method on an object looks up the method and then uses the object as the method’s receiver._
+
++++
+
+##### Constructors
+
+```
+function User(name, passwordHash) { 
+    this.name = name; 
+    this.passwordHash = passwordHash;
+}
+
+var u = new User("sfalken", "0ef33ae791068ec64b502d6cb0191387");
+u.name; // "sfalken"
+```
+
+---
+
+### Item 19: Get Comfortable Using Higher-Order Functions
+
++++
+
+- Higher-order functions are nothing more than functions that take other functions as arguments or return functions as their result.
+
+```
+var names = ["Fred", "Wilma", "Pebbles"]; 
+var upper = names.map(function(name) {
+    return name.toUpperCase(); 
+});
+upper; // ["FRED", "WILMA", "PEBBLES"]
+```
+
++++
+
+What's in commin
+
+```
+var random = "";
+for (var i = 0; i < 8; i++) {
+    random += String.fromCharCode(Math.floor(Math.random() * 26)+ aIndex); 
+}
+random; // "bdwvfrtp" (different result each time)
+```
+
+```
+var digits = "";
+for (var i = 0; i < 10; i++) {
+    digits += i; 
+}
+digits// "0123456789"
+```
+```
+var aIndex = "a".charCodeAt(0); // 97
+var alphabet = "";
+for (var i = 0; i < 26; i++) {
+    alphabet += String.fromCharCode(aIndex + i);
+}
+```
+all have loops and concatinating some result of a logic
+
++++
+
+Abstraction
+
+```
+function buildString(n, callback) { 
+    var result = "";
+    for (var i = 0; i < n; i++) {
+        result += callback(i);
+    }
+    return result; 
+}
+```
+Result
+```
+var alphabet = buildString(26, function(i) { 
+    return String.fromCharCode(aIndex + i);
+});
+alphabet; // "abcdefghijklmnopqrstuvwxyz"
+```
+
+---
+
