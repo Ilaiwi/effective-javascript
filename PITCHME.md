@@ -188,13 +188,13 @@ if (+form.month.value === (today.getMonth() + 1) && // strict
 - JavaScript’s variable assignment rules make it all too easy to create global variables accidentally.
 
 ```
-function swap(a, i, j) { temp = a[i]; // global a[i] = a[j];
+function swap(a, i, j) { temp = a[i]; // global 
+a[i] = a[j];
 a[j] = temp;
 }
 ```
 _Purposefully creating global variables is bad style, but accidentally creating global variables can be a downright disaster._
 
-+++
 
 ---
 
@@ -202,7 +202,7 @@ _Purposefully creating global variables is bad style, but accidentally creating 
 
 Functions that keep track of variables from their containing scopes are known as closures.
 
----
++++
 
 #### Understanding closures only requires learning three essential facts.
 
@@ -251,7 +251,110 @@ var b = box();
 b.type(); // "undefined" b.set(98.6);
 b.get(); // 98.6 b.type(); // "number"
 ```
-_Closures actually store refer- ences to their outer variables, rather than copying their values._
+_Closures actually store references to their outer variables, rather than copying their values._
 
 ---
 
+### Item 12: Understand Variable Hoisting
+
++++
+
+- A reference to a variable foo is bound to the nearest scope in which foo was declared.
+- JavaScript does not support block scoping
+- Variable definitions are not scoped to their nearest enclosing state- ment or block, but rather to their containing function.
+
++++
+
+```
+function isWinner(player, others) {
+    var highest = 0;
+    for (var i = 0, n = others.length; i < n; i++) {
+        var player = others[i];
+        if (player.score > highest) {
+            highest = player.score;
+        }
+    }
+    return player.score > highest;
+}
+```
+
+_the inner declaration of player simply redeclares a variable that was already in scope_
+
++++
+
+##### Understanding JavaScript variable declarations
+
+1. A declaration: 
+    JavaScript implicitly “hoists” the declaration part to the top of the enclosing function
+2. An assignment:
+    Leaves the assignment in place.
+
++++
+
+```
+function trimSections(header, body, footer) {
+    for (var i = 0, n = header.length; i < n; i++) {
+        header[i] = header[i].trim();
+    }
+    for (var i = 0, n = body.length; i < n; i++) {
+    body[i] = body[i].trim();
+    }
+    for (var i = 0, n = footer.length; i < n; i++) {
+        footer[i] = footer[i].trim();
+    }
+}
+```
+_The trimSections function appears to declare six local variables (three called i and three called n), but hoisting results in only two_
+
+
+---
+
+### Item 13: Use Immediately Invoked Function Expressions to Create Local Scopes
+
++++
+What does this (buggy!) program compute?
+```
+function wrapElements(a) {
+    var result = [], i, n;
+    for (i = 0, n = a.length; i < n; i++) {
+        result[i] = function () { return a[i]; };
+    }
+    return result;
+}
+var wrapped = wrapElements([10, 20, 30, 40, 50]); var 
+f = wrapped[0];
+f(); // ?
+```
+
++++
+
+The programmer may have intended for it to produce 10, but it actu- ally produces the undefined value.
+
++++
+
+##### What happened?
+
+1. Entering a scope at runtime allocates a “slot” in memory for each variable binding in that scope.
+
+2. The bug in the program comes from the fact that the programmer apparently expected the function to store the value of i at the time the nested function was created. 
+3. But in fact, it contains a reference to i
+
+_Closures store their outer variables by reference, not by value._
+
++++
+IIFE
+```
+function wrapElements(a) {
+    var result = [];
+    for (var i = 0, n = a.length; i < n; i++) {
+        (function () {
+            var j = i;
+            result[i] = function () { return a[j]; };
+        })();
+    }
+    return result;
+}
+f = wrapped[0];
+f(); // 10
+```
+_used an IIFE to create a local scope_
