@@ -196,3 +196,62 @@ _Purposefully creating global variables is bad style, but accidentally creating 
 
 +++
 
+---
+
+### Item 11: Get Comfortable with Closures
+
+Functions that keep track of variables from their containing scopes are known as closures.
+
+---
+
+#### Understanding closures only requires learning three essential facts.
+
+1. The first fact is that JavaScript allows you to refer to variables that were defined outside of the current function
+
+```
+function makeSandwich() {
+    var magicIngredient = "peanut butter"; function make(filling) {
+        return magicIngredient + " and " + filling;
+    }
+    return make("jelly");
+}
+makeSandwich(); // "peanut butter and jelly"
+```
+
++++
+
+2. The second fact is that functions can refer to variables defined in outer functions even after those outer functions have returned.
+
+```
+function sandwichMaker() {
+    var magicIngredient = "peanut butter"; function make(filling) {
+        return magicIngredient + " and " + filling;
+    }
+    return make;
+}
+var f = sandwichMaker();
+f("jelly"); // "peanut butter and jelly"
+f("bananas"); // "peanut butter and bananas" 
+f("marshmallows"); // "peanut butter and marshmallows"
+```
+
+_They also internally store any variables they may refer to that are defined in their enclosing scopes._
++++
+
+3. The third and final fact to learn about closures is that they can update the values of outer variables.
+
+```
+function box() {
+    var val = undefined; return {
+        set: function (newVal) { val = newVal; }, get: function () { return val; },
+        type: function () { return typeof val; }
+    };
+}
+var b = box();
+b.type(); // "undefined" b.set(98.6);
+b.get(); // 98.6 b.type(); // "number"
+```
+_Closures actually store refer- ences to their outer variables, rather than copying their values._
+
+---
+
