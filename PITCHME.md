@@ -519,3 +519,28 @@ buffer.join(); // "867-5309"
 ```
 
 ###### Keep in mind that buffer.add.bind(buffer) creates a new function rather than modifying the buffer.add function.
+
+---
+
+### Item 26: Use bind to Curry Functions
+
++++
+
+The bind method of functions is useful for more than just binding methods to receivers.
+
+```
+function simpleURL(protocol, domain, path) {
+    return protocol + "://" + domain + "/" + path;
+}
+```
+```
+var urls = paths.map(function (path) {
+    return simpleURL("http", siteDomain, path);
+});
+```
+
+```
+var urls = paths.map(simpleURL.bind(null, "http", siteDomain));
+```
+
+when the result of simpleURL.bind is called with a single argument path, the function delegates to simpleURL("http", siteDomain, path).
