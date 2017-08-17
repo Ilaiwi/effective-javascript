@@ -543,4 +543,195 @@ var urls = paths.map(function (path) {
 var urls = paths.map(simpleURL.bind(null, "http", siteDomain));
 ```
 
-when the result of simpleURL.bind is called with a single argument path, the function delegates to simpleURL("http", siteDomain, path).
+when the result of `simpleURL.bind` is called with a single argument path, the function delegates to `simpleURL("http", siteDomain, path)`.
+
+---
+
+### Item 30: Prototype
+
++++
+
+```
+function User(name, passwordHash) {
+    this.name = name; 
+    this.passwordHash = passwordHash;
+}
+User.prototype.toString = function () {
+    return "[User " + this.name + "]";
+};
+User.prototype.checkPassword = function (password) {
+    return hash(password) === this.passwordHash;
+};
+var u = new User("sfalken",
+    "0ef33ae791068ec64b502d6cb0191387");
+```
+
++++
+
+![inheritance tree](./assets/ineritance.png)
+
++++
+
+##### Lookup
+
+- Property lookups start by searching the object’s own properties; for example, u.name and u.passwordHash return the current values of immediate properties of u. 
+- Properties not found directly on u are looked up in u’s prototype. Accessing u.checkPassword, for example, retrieves a method stored in User.prototype.
+
+_Classes in JavaScript are essentially the com- bination of a constructor function (User) and a prototype object used to share methods between instances of the class (User.prototype)._
+
+
+---
+
+Item 34: Store Methods on Prototypes
+
++++
+
+Maybe you are thinking why to use prototype? just do something like this:
+
+```
+function User(name, passwordHash) {
+this.name = name; 
+this.passwordHash = passwordHash; 
+this.toString = function () {
+    return "[User " + this.name + "]";
+};
+    this.checkPassword = function (password) {
+        return hash(password) === this.passwordHash;
+    };
+}
+```
+
++++
+
+![instances](./assets/instances.png)
+
++++
+
+![prototype](./assets/prototypes.png)
+
+
+---
+
+### Item 35: Use Closures to Store Private Data
+
++++
+
+- JavaScript’s object system does not particularly encourage or enforce information hiding.
+- JavaScript does provide one very reliable mecha- nism for information hiding: the closure.
+
+
+```
+function User(name, passwordHash) {
+    this.toString = function () {
+        return "[User " + name + "]";
+    };
+    this.checkPassword = function (password) {
+        return hash(password) === passwordHash;
+    };
+}
+
+```
+
+---
+
+### Item 43: Build Lightweight Dictionaries from Direct Instances of Object
++++
+
+- JavaScript object is a table mapping string property names to values.
+- This makes objects pleasantly lightweight for imple- menting dictionaries
+- JavaScript provides a convenient construct for enumerating the property names of an object, the for...in loop
+
+```
+var dict = { alice: 34, bob: 24, chris: 62 }; 
+var people = [];
+for (var name in dict) {
+    people.push(name + ": " + dict[name]);
+}
+people; // ["alice: 34", "bob: 24", "chris: 62"]
+```
+
++++
+- Object also inherits properties from its prototype object
+- Properties on a prototype object can cause unexpected properties to appear when enumerating dictionary entries. (`prototype pollution`)
+
+```
+var dict = new Array();
+dict.alice = 34;
+dict.bob = 24;
+dict.chris = 62;
+dict.bob; // 24
+Array.prototype.first = function() { 
+    return this[0];
+};
+Array.prototype.last = function() { 
+    return this[this.length – 1];
+};
+var names = [];
+for (var name in dict) { 
+    names.push(name);
+}
+names; // ["alice", "bob", "chris", "first", "last"]
+```
+
++++
+
+##### Rule of using objects as lightweight dictionaries
+
+Only use direct instances of `Object` as `dictionaries`
+
+```
+var dict = {};
+dict.alice = 34;
+dict.bob = 24;
+dict.chris = 62;
+var names = [];
+for (var name in dict) { 
+    names.push(name);
+}
+names; // ["alice", "bob", "chris"]
+```
+---
+### Item 44: Use null Prototypes to Prevent Prototype Pollution
+
++++
+
+Solution for `prototype pollution` is create a new object with an empty prototype but how?
+
+
+```
+function C() { } 
+C.prototype = null;
+var o = new C();
+Object.getPrototypeOf(o) === null; // false 
+Object.getPrototypeOf(o) === Object.prototype; // true
+```
+
++++
+
+ES5 offers the first standard way to create an object with no prototype. The `Object.create` function.
+
+```
+var x = Object.create(null); 
+Object.getPrototypeOf(o) === null; // true
+```
+
++++
+
+##### The `Object.keys()` method returns an array of a given object's own enumerable properties, in the same order as that provided by a `for...in` loop (the difference being that a for-in loop enumerates properties in the prototype chain as well).
+
+##### Add methods as non enumerable
+
+```
+Object.defineProperty(Object.prototype, "allKeys", {
+    value: function () {
+        var result = [];
+        for (var key in this) {
+            result.push(key);
+        }
+        return result;
+    },
+    writable: true,
+    enumerable: false,
+    configurable: true
+});
+```
