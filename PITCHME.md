@@ -717,23 +717,8 @@ Object.getPrototypeOf(o) === null; // true
 
 +++
 
-<span style="font-size: 13px;">
-
- The `Object.keys()` method returns an array of a given object's own enumerable properties, in the same order as that provided by a `for...in` loop (the difference being that a for-in loop enumerates properties in the prototype chain as well).
-
-
-</span>
-
-<span style="font-size: 13px;">
-
- Add methods as non enumerable
-
-
-</span>
-
-
- 
-
+- The `Object.keys()` method returns an array of a given object's own enumerable properties, in the same order as that provided by a `for...in` loop (the difference being that a for-in loop enumerates properties in the prototype chain as well.
+- Add methods as non enumerable
 ```
 Object.defineProperty(Object.prototype, "allKeys", {
     value: function () {
@@ -747,4 +732,104 @@ Object.defineProperty(Object.prototype, "allKeys", {
     enumerable: false,
     configurable: true
 });
+```
+
+---
+
+### Item 54: Treat undefined As “No Value”
+
+
++++
+
+Function parameters that are not provided with actual arguments have the value undefined
+
+```
+function f(x) { 
+    return x;
+}
+f(); // undefined
+```
+
+- Treating undefined as the absence of any specific value is a convention established by the language.
+- Using it for other purposes is a risky proposition.
+
+
++++
+
+##### Optional arguments
+
+```
+function Server(port, hostname) { 
+    if (hostname === undefined) {
+        hostname = "localhost";
+    }
+    hostname = String(hostname);
+}
+
+var s1 = new Server(80, "example.com");
+var s2 = new Server(80); // defaults to "localhost"
+```
+Alternative
+
+```
+function Server(port, hostname) {
+    hostname = String(hostname || "localhost");
+}
+```
+
+This version uses the logical `OR` operator `(||)`, which returns the first argument if it is a truthy value and otherwise returns its second argument.
++++
+
+##### Truthiness is not always a safe test
+
+- If a function should accept the empty string as a legal value, a truthy test will override the empty string and replace it with the default value.
+- Similarly, a function that accepts a number should not use a truthy test if it allows 0 (or NaN, although it’s less common) as an acceptable value.
+
+```
+function Element(width, height) {
+    this.width = width || 320; // wrong test 
+    this.height = height || 240; // wrong test 
+}
+var c1 = new Element(0, 0);
+c1.width; // 320 
+c1.height; // 240
+```
+
+---
+
+### Item 56: Avoid Unnecessary State
+
++++
+
+- APIs are sometimes classified as either stateful or stateless.
+- A stateless API provides functions or methods whose behavior depends only on their inputs, not on the changing state of the program.
+- Stateless APIs tend to be easier to learn and use, more self-documenting, and less error-prone.
+
++++
+
+- Another benefit of stateless APIs is conciseness
+
+```
+[Host]
+address=172.0.0.1
+name=localhost
+[Connections]
+timeout=10000
+```
+
+```
+var ini = INI.parse(src);
+ini.setSection("Host");
+var addr = ini.get("address"); 
+var hostname = ini.get("name");
+ini.setSection("Connection");
+var timeout = ini.get("timeout");
+var server = new Server(addr, hostname, timeout);
+````
+
+```
+var ini = INI.parse(src);
+var server = new Server(ini.Host.address,
+                        ini.Host.name,
+                        ini.Connection.timeout);
 ```
