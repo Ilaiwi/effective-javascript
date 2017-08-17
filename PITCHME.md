@@ -188,7 +188,7 @@ Functions that keep track of variables from their containing scopes are known as
 
 #### Understanding closures only requires learning three essential facts.
 
-1. The first fact is that JavaScript allows you to refer to variables that were defined outside of the current function
+- JavaScript allows you to refer to variables that were defined outside of the current function
 
 ```
 function makeSandwich() {
@@ -203,7 +203,7 @@ makeSandwich(); // "peanut butter and jelly"
 
 +++
 
-2. The second fact is that functions can refer to variables defined in outer functions even after those outer functions have returned.
+- Functions can refer to variables defined in outer functions even after those outer functions have returned.
 
 ```
 function sandwichMaker() {
@@ -224,7 +224,7 @@ They also internally store any variables they may refer to that are defined in t
 </span>
 +++
 
-3. The third and final fact to learn about closures is that they can update the values of outer variables.
+- They can update the values of outer variables.
 
 ```
 function box() {
@@ -250,9 +250,9 @@ Closures actually store references to their outer variables, rather than copying
 
 +++
 
-- A reference to a variable foo is bound to the nearest scope in which foo was declared.
+- A reference to a variable `foo` is bound to the nearest scope.
 - JavaScript does not support block scoping
-- Variable definitions are not scoped to their nearest enclosing state- ment or block, but rather to their containing function.
+- Variable definitions are scoped to their nearest enclosing function.
 
 +++
 
@@ -269,15 +269,18 @@ function isWinner(player, others) {
 }
 ```
 
-_the inner declaration of player simply redeclares a variable that was already in scope_
-
+<span style="font-size:1.8rem;">
+the inner declaration of player simply redeclares a variable that was already in scope
+</span>
 +++
 
 ##### Understanding JavaScript variable declarations
 
 1. A declaration: 
+<br/>
     JavaScript implicitly “hoists” the declaration part to the top of the enclosing function
 2. An assignment:
+<br/>
     Leaves the assignment in place.
 
 +++
@@ -319,18 +322,10 @@ f(); // ?
 
 +++
 
-The programmer may have intended for it to produce 10, but it actu- ally produces the undefined value.
-
-+++
-
-##### What happened?
-
-1. Entering a scope at runtime allocates a “slot” in memory for each variable binding in that scope.
-
-2. The bug in the program comes from the fact that the programmer apparently expected the function to store the value of i at the time the nested function was created. 
-3. But in fact, it contains a reference to i
+The programmer may have intended for it to produce 10, but it actually produces the undefined value.
 
 _Closures store their outer variables by reference, not by value._
+
 
 +++
 IIFE
@@ -405,7 +400,7 @@ u.name; // "sfalken"
 
 +++
 
-- Higher-order functions are nothing more than functions that take other functions as arguments or return functions as their result.
+Higher-order functions are nothing more than functions that take other functions as arguments or return functions as their result.
 
 ```
 var names = ["Fred", "Wilma", "Pebbles"]; 
