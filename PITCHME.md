@@ -530,8 +530,9 @@ var urls = paths.map(function (path) {
 var urls = paths.map(simpleURL.bind(null, "http", siteDomain));
 ```
 
+<span style="font-size:1.8rem">
 when the result of `simpleURL.bind` is called with a single argument path, the function delegates to `simpleURL("http", siteDomain, path)`.
-
+</span>
 ---
 
 ### Item 30: Prototype
