@@ -167,12 +167,15 @@ if (+form.month.value === (today.getMonth() + 1) && // strict
 - JavaScript’s variable assignment rules make it all too easy to create global variables accidentally.
 
 ```
-function swap(a, i, j) { temp = a[i]; // global 
-a[i] = a[j];
-a[j] = temp;
+function swap(a, i, j) { 
+    temp = a[i]; // global 
+    a[i] = a[j];
+    a[j] = temp;
 }
 ```
-_Purposefully creating global variables is bad style, but accidentally creating global variables can be a downright disaster._
+<span style="font-size:13px;">
+    Purposefully creating global variables is bad style, but accidentally creating global variables can be a downright disaster.
+<span/>
 
 
 ---
