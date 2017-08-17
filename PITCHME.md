@@ -717,9 +717,22 @@ Object.getPrototypeOf(o) === null; // true
 
 +++
 
-####### The `Object.keys()` method returns an array of a given object's own enumerable properties, in the same order as that provided by a `for...in` loop (the difference being that a for-in loop enumerates properties in the prototype chain as well).
+<span style="font-size: 13px;">
 
-####### Add methods as non enumerable
+ The `Object.keys()` method returns an array of a given object's own enumerable properties, in the same order as that provided by a `for...in` loop (the difference being that a for-in loop enumerates properties in the prototype chain as well).
+
+
+</span>
+
+<span style="font-size: 13px;">
+
+ Add methods as non enumerable
+
+
+</span>
+
+
+ 
 
 ```
 Object.defineProperty(Object.prototype, "allKeys", {
