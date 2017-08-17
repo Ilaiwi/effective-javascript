@@ -6,37 +6,6 @@
 
 ---
 
-### Item 2: Understand JavaScript’s Floating-Point Numbers
-
-+++
-
-- All numbers in JavaScript are `double-precision floating-point numbers` (64-bit)
-
-- `-9,007,199,254,740,992` (–2^53) `to 9,007,199,254,740,992` (2^53)
-
-```
-typeof 17; // "number" 
-typeof 98.6; // "number" 
-typeof -2.1; // "number"
-```
-+++
-
-- bitwise arithmetic operators are special
-- they implicitly convert them to 32-bit integers
-```
-8 | 1; // 9
-```
-
-+++
-```
-0.1 * 1.9 // 0.19 
--99 + 100; // 1
-21 - 12.3; // 8.7
-2.5 / 5; // 0.5 
-21 % 8; // 5
-```
----
-
 ### Item 3: Beware of Implicit Coercions
 
 +++
@@ -577,7 +546,7 @@ var u = new User("sfalken",
 - Property lookups start by searching the object’s own properties; for example, u.name and u.passwordHash return the current values of immediate properties of u. 
 - Properties not found directly on u are looked up in u’s prototype. Accessing u.checkPassword, for example, retrieves a method stored in User.prototype.
 
-_Classes in JavaScript are essentially the com- bination of a constructor function (User) and a prototype object used to share methods between instances of the class (User.prototype)._
+_Classes in JavaScript are essentially the combination of a constructor function (User) and a prototype object used to share methods between instances of the class (User.prototype)._
 
 
 ---
