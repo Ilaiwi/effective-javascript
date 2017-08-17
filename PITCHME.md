@@ -3,6 +3,19 @@
 ---
 
 ### Introduction
++++
+The book
+
+![cover](./assets/book.png)
+
++++
+
+# Javascript @ Yamsafer
+
+More than half the developers @ Yamsafer use Javascript. It is used by:
+1. Front-End developers 
+2. Backenders
+3. QA Team
 
 ---
 
