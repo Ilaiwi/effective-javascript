@@ -480,8 +480,9 @@ var source = ["867", "-", "5309"];
 source.forEach(buffer.add); // error: entries is undefined
 ```
 
-###### forEach uses the global object as the default receiver.
-
+<span style="font-size:1.8rem">
+forEach uses the global object as the default receiver.
+</span>
 +++
 ##### Solution
 ```
@@ -503,9 +504,9 @@ var source = ["867", "-", "5309"];
 source.forEach(buffer.add.bind(buffer)); 
 buffer.join(); // "867-5309"
 ```
-
-###### Keep in mind that buffer.add.bind(buffer) creates a new function rather than modifying the buffer.add function.
-
+<span style="font-size:1.8rem">
+Keep in mind that buffer.add.bind(buffer) creates a new function rather than modifying the buffer.add function.
+</span>
 ---
 
 ### Item 26: Use bind to Curry Functions
