@@ -173,7 +173,7 @@ function swap(a, i, j) {
     a[j] = temp;
 }
 ```
-<span style="font-size:13px;">
+<span style="font-size:1rem;">
     Purposefully creating global variables is bad style, but accidentally creating global variables can be a downright disaster.
 <span/>
 
