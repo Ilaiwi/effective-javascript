@@ -327,8 +327,8 @@ The programmer may have intended for it to produce 10, but it actually produces 
 _Closures store their outer variables by reference, not by value._
 
 
-+++
-IIFE
++++IIFE
+
 ```
 function wrapElements(a) {
     var result = [];
@@ -702,9 +702,12 @@ Object.getPrototypeOf(o) === null; // true
 ```
 
 +++
-
-- The `Object.keys()` method returns an array of a given object's own enumerable properties, in the same order as that provided by a `for...in` loop (the difference being that a for-in loop enumerates properties in the prototype chain as well.
-- Add methods as non enumerable
+<span style="font-size:1.8rem;">
+The `Object.keys()` method returns an array of a given object's own enumerable properties, in the same order as that provided by a `for...in` loop (the difference being that a for-in loop enumerates properties in the prototype chain as well.
+</span>
+<span style="font-size:1.8rem;">
+Add methods as non enumerable
+</span>
 ```
 Object.defineProperty(Object.prototype, "allKeys", {
     value: function () {
@@ -762,8 +765,9 @@ function Server(port, hostname) {
     hostname = String(hostname || "localhost");
 }
 ```
-
+<span style="font-size:1.8rem;">
 This version uses the logical `OR` operator `(||)`, which returns the first argument if it is a truthy value and otherwise returns its second argument.
+</span>
 +++
 
 ##### Truthiness is not always a safe test
