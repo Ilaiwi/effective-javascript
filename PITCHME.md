@@ -12,10 +12,10 @@ The book
 
 # Javascript @ Yamsafer
 
-More than half the developers @ Yamsafer use Javascript. It is used by:
-1. Front-End developers 
-2. Backenders
-3. QA Team
+More than half the developers @ Yamsafer use Javascript.
+- Frontenders (6 developers)
+- Backenders (5 developers)
+- QA Team (5 developers)
 
 ---
 
@@ -76,7 +76,7 @@ b !== b; // false
 ```
 Objects can be converted to numbers via their `valueOf` method.
 ```
-"J" + { toString: function() { return "S"; } }; // 
+"J" + { toString: function() { return "S"; } }; // "JS"
 "JS" 2 * { valueOf: function() { return 3; } }; // 6
 ```
 
@@ -104,11 +104,8 @@ var obj = {
 ### Truthiness coercion
 
 - `if`, `||`, and `&&` logically work with boolean values
-- Truthiness does not involve implicitly invoking any coercion methods
-
 - *falsy* values: `false`, `0`, `-0`, `""`, `NaN`, `null`, and `undefined`.
 - It is not always safe to use truthiness to check whether a function argument or object property is defined.
-
 ```
 function point(x, y) {
     if (typeof x === "undefined") {
