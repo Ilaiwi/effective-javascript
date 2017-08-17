@@ -173,7 +173,7 @@ function swap(a, i, j) {
     a[j] = temp;
 }
 ```
-<span style="font-size:1rem;">
+<span style="font-size:1.8rem;">
     Purposefully creating global variables is bad style, but accidentally creating global variables can be a downright disaster.
 <span/>
 
@@ -192,7 +192,8 @@ Functions that keep track of variables from their containing scopes are known as
 
 ```
 function makeSandwich() {
-    var magicIngredient = "peanut butter"; function make(filling) {
+    var magicIngredient = "peanut butter"; 
+    function make(filling) {
         return magicIngredient + " and " + filling;
     }
     return make("jelly");
@@ -206,7 +207,8 @@ makeSandwich(); // "peanut butter and jelly"
 
 ```
 function sandwichMaker() {
-    var magicIngredient = "peanut butter"; function make(filling) {
+    var magicIngredient = "peanut butter"; 
+    function make(filling) {
         return magicIngredient + " and " + filling;
     }
     return make;
@@ -217,24 +219,31 @@ f("bananas"); // "peanut butter and bananas"
 f("marshmallows"); // "peanut butter and marshmallows"
 ```
 
-_They also internally store any variables they may refer to that are defined in their enclosing scopes._
+<span style="font-size:1.8rem;">
+They also internally store any variables they may refer to that are defined in their enclosing scopes.
+</span>
 +++
 
 3. The third and final fact to learn about closures is that they can update the values of outer variables.
 
 ```
 function box() {
-    var val = undefined; return {
-        set: function (newVal) { val = newVal; }, get: function () { return val; },
+    var val = undefined; 
+    return {
+        set: function (newVal) { val = newVal; }, 
+        get: function () { return val; },
         type: function () { return typeof val; }
     };
 }
 var b = box();
-b.type(); // "undefined" b.set(98.6);
-b.get(); // 98.6 b.type(); // "number"
+b.type(); // "undefined" 
+b.set(98.6);
+b.get(); // 98.6 
+b.type(); // "number"
 ```
-_Closures actually store references to their outer variables, rather than copying their values._
-
+<span style="font-size:1.8rem;">
+Closures actually store references to their outer variables, rather than copying their values.
+</span>
 ---
 
 ### Item 12: Understand Variable Hoisting
