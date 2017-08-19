@@ -991,6 +991,7 @@ Member.prototype.inNetwork = function (other) {
     }
     return false;
 };
+
 ```
 
 +++
@@ -1053,7 +1054,6 @@ function downloadAllAsync(urls, onsuccess, onerror) {
     });
 }
 ```
-
 +++
 ```
 var filenames = [
