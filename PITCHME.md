@@ -907,21 +907,21 @@ function downloadOneAsync(urls, onsuccess, onfailure) {
     tryNextURL(0);
 }
 ```
-<span style="font-size:1.8rem;">
+<div style="font-size:1.8rem;">
 Could a `stack overflow` occure ?
-Asynchronous APIs return immediately—before their callbacks are invoked.
-</span>
+Asynchronous APIs return immediately before their callbacks are invoked.
+</div>
 
 ---
 
 ### Item 65: Don’t Block the Event Queue on Computation
 
 +++
-<span style="font-size:2rem;">
+- <span style="font-size:2rem;">
 Efficiency is not a concern that’s unique to JavaScript. But event-based programming does impose particular constraints.
 </span>
 
-<div style="font-size:1.8rem;">
+- <div style="font-size:1.8rem;">
 So what can you do if your application needs to perform expensive computations?
 <br/>
 Perhaps the simplest approach is to use a concurrency mechanism like the web client platform’s Worker API.
@@ -937,8 +937,9 @@ var ai = new Worker("ai.js");
 - This has the effect of spawning a new concurrent thread of execution with its own separate event queue, using the source file ai.js as the worker’s script.
 - Application and worker can communicate with each other by sending messages to each other
 </div>
+
 ```
-var userMove = /* ... */;
+var userMove = "some move" ;
 ai.postMessage(JSON.stringify({
     userMove: userMove
 }));
@@ -1016,6 +1017,6 @@ Member.prototype.inNetwork = function (other, callback) {
 };
 ```
 <div style="font-size:1.5rem">
-next(): performing a single iteration of the loop and then scheduling the next iteration
-`setTimeout`: add events to queue.
+- next(): performing a single iteration of the loop and then scheduling the next iteration
+- `setTimeout`: add events to queue.
 </div>
