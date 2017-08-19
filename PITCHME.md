@@ -871,4 +871,47 @@ downloadAsync("http://example.com/file.txt", function(text) {
 
 ---
 
-### Item 63: Be Aware of Dropped Errors
+### Item 64: Use Recursion for Asynchronous Loops
+
++++
+
+##### will this work?
+
+```
+function downloadOneAsync(urls, onsuccess, onerror) {
+    for (var i = 0, n = urls.length; i < n; i++) {
+        downloadAsync(urls[i], onsuccess, function (error) { // ?
+        });
+        // loop continues
+    }
+    throw new Error("all downloads failed");
+}
+```
+<span style="font-size:1.8rem;">
+So we need to implement something that acts like a loop, but that doesn’t continue executing until we explicitly say so.
+</span>
++++
+
+```
+function downloadOneAsync(urls, onsuccess, onfailure) {
+    var n = urls.length;
+    function tryNextURL(i) {
+        if (i >= n) {
+            onfailure("all downloads failed");
+            return;
+        }
+        downloadAsync(urls[i], onsuccess, function () {
+            tryNextURL(i + 1);
+        });
+    }
+    tryNextURL(0);
+}
+```
+<span style="font-size:1.8rem;">
+Could a `stack overflow` occure ?
+Asynchronous APIs return immediately—before their callbacks are invoked.
+</span>
+
+---
+
+### Item 65: Don’t Block the Event Queue on Computation
