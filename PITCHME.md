@@ -825,3 +825,50 @@ var server = new Server(ini.Host.address,
                         ini.Host.name,
                         ini.Connection.timeout);
 ```
+
+---
+
+### Item 61: Don’t Block the Event Queue on I/O
+
++++
+
+- JavaScript programs are structured around `events`
+- `synchronous`, or `blocking` functions stops the program from doing any work while it waits for its input.
+
+```
+var text = downloadSync("http://example.com/file.txt"); console.log(text);
+```
+- In JavaScript, most I/O operations are provided through asynchronous, or nonblocking APIs.
+
+```
+downloadAsync("http://example.com/file.txt", function(text) { 
+    console.log(text);
+});
+```
+
++++
+
+- API initiates the download process and then immediately returns after storing the callback in an internal registry.
+
+- When download completes the system calls the registered callback.
+
+- The system does not just jump right in and call the callback the instant the download completes
+
+- JavaScript is sometimes described as providing a run-to-completion guarantee.
+
++++
+
+![](./assets/queue.png)
+
++++
+
+- Benefit of the run-to-completion is that you have complete control over the application state.
+
+- Drawback of run-to-completion is that any and all code you write effectively holds up the rest of the application from proceeding.
+
+- Be aware of blocking I/O and try to avoid them.
+
+
+---
+
+### Item 63: Be Aware of Dropped Errors
