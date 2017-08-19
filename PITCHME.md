@@ -1020,3 +1020,78 @@ Member.prototype.inNetwork = function (other, callback) {
 - next(): performing a single iteration of the loop and then scheduling the next iteration
 - `setTimeout`: add events to queue.
 </div>
+
+---
+
+### Item 66: Use a Counter to Perform Concurrent Operations
+
++++
+
+- Concurrent logic is subtle and easy to get wrong
+
+```
+function downloadAllAsync(urls, onsuccess, onerror) {
+    var result = [], length = urls.length;
+    if (length === 0) {
+        setTimeout(onsuccess.bind(null, result), 0); return;
+    }
+    urls.forEach(function (url) {
+        downloadAsync(url, function (text) {
+            if (result) {
+                // race condition
+                result.push(text);
+                if (result.length === urls.length) {
+                    onsuccess(result);
+                }
+            }
+        }, function (error) {
+            if (result) {
+                result = null;
+                onerror(error);
+            }
+        });
+    });
+}
+```
+```
+var filenames = [
+    "huge.txt", // huge file 
+    "tiny.txt", // tiny file 
+    "medium.txt" // medium-sized file
+];
+downloadAllAsync(filenames, function (files) {
+    console.log("Huge file: " + files[0].length); //tiny 
+    console.log("Tiny file: " + files[1].length); //medium
+    console.log("Medium file: " + files[2].length); // huge
+}, function (error) {
+    console.log("Error: " + error);
+});
+```
+
++++
+
+```
+function downloadAllAsync(urls, onsuccess, onerror) {
+    var pending = urls.length;
+    var result = [];
+    if (pending === 0) {
+        setTimeout(onsuccess.bind(null, result), 0); return;
+    }
+    urls.forEach(function (url, i) {
+        downloadAsync(url, function (text) {
+            if (result) {
+                result[i] = text; // store at fixed index 
+                pending--; // register the success 
+                if (pending === 0) {
+                onsuccess(result);
+            }
+        }
+}, function (error) {
+            if (result) {
+                result = null;
+                onerror(error);
+            }
+        });
+});
+}
+```
