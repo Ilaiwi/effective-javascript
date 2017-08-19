@@ -1027,8 +1027,8 @@ Member.prototype.inNetwork = function (other, callback) {
 
 +++
 
-
 - Concurrent logic is subtle and easy to get wrong
+
 ```
 function downloadAllAsync(urls, onsuccess, onerror) {
     var result = [], length = urls.length;
@@ -1053,6 +1053,7 @@ function downloadAllAsync(urls, onsuccess, onerror) {
     });
 }
 ```
+
 +++
 ```
 var filenames = [
