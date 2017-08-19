@@ -1025,10 +1025,10 @@ Member.prototype.inNetwork = function (other, callback) {
 
 ### Item 66: Use a Counter to Perform Concurrent Operations
 
-- Concurrent logic is subtle and easy to get wrong
 +++
 
 
+- Concurrent logic is subtle and easy to get wrong
 ```
 function downloadAllAsync(urls, onsuccess, onerror) {
     var result = [], length = urls.length;
