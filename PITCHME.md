@@ -1053,6 +1053,7 @@ function downloadAllAsync(urls, onsuccess, onerror) {
     });
 }
 ```
++++
 ```
 var filenames = [
     "huge.txt", // huge file 
