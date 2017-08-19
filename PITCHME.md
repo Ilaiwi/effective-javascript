@@ -915,3 +915,107 @@ Asynchronous APIs return immediately—before their callbacks are invoked.
 ---
 
 ### Item 65: Don’t Block the Event Queue on Computation
+
++++
+<span style="font-size:2rem;">
+Efficiency is not a concern that’s unique to JavaScript. But event-based programming does impose particular constraints.
+</span>
+
+<div style="font-size:1.8rem;">
+So what can you do if your application needs to perform expensive computations?
+<br/>
+Perhaps the simplest approach is to use a concurrency mechanism like the web client platform’s Worker API.
+</div>
+
++++
+
+
+```
+var ai = new Worker("ai.js");
+```
+<div style="font-size:2rem;">
+- This has the effect of spawning a new concurrent thread of execution with its own separate event queue, using the source file ai.js as the worker’s script.
+- Application and worker can communicate with each other by sending messages to each other
+</div>
+```
+var userMove = /* ... */;
+ai.postMessage(JSON.stringify({
+    userMove: userMove
+}));
+ai.onmessage = function(event) { 
+    executeMove(JSON.parse(event.data).computerMove);
+};
+```
+
++++
+
+##### Worker
+```
+self.onmessage = function (event) {
+    // parse the user move
+    var userMove = JSON.parse(event.data).userMove;
+    // generate the next computer move
+    var computerMove = computeNextMove(userMove);
+    // format the computer move
+    var message = JSON.stringify({
+        computerMove: computerMove
+    });
+    self.postMessage(message);
+};
+function computeNextMove(userMove) { // ...
+}
+```
+
++++
+
+##### Different Approach
+
+- Break up an algorithm into multiple steps
+
+<span style="font-size:2rem">
+Network graph
+</span>
+```
+Member.prototype.inNetwork = function (other) {
+    var visited = {};
+    var worklist = [this];
+    while (worklist.length > 0) {
+        var member = worklist.pop();
+        // ...
+        if (member === other) { // found?
+            return true;
+        }
+        // ...
+    }
+    return false;
+};
+
+```
+
++++
+
+```
+Member.prototype.inNetwork = function (other, callback) {
+    var visited = {};
+    var worklist = [this];
+    function next() {
+        if (worklist.length === 0) {
+            callback(false);
+            return;
+        }
+        var member = worklist.pop();
+        // ...
+        if (member === other) { // found?
+            callback(true);
+            return;
+        }
+        // ...
+        setTimeout(next, 0); // schedule the next iteration 
+    }
+    setTimeout(next, 0); // schedule the first iteration 
+};
+```
+<div style="font-size:1.5rem">
+next(): performing a single iteration of the loop and then scheduling the next iteration
+`setTimeout`: add events to queue.
+</div>
