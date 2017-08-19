@@ -934,8 +934,9 @@ Perhaps the simplest approach is to use a concurrency mechanism like the web cli
 var ai = new Worker("ai.js");
 ```
 <div style="font-size:2rem;">
-- This has the effect of spawning a new concurrent thread of execution with its own separate event queue, using the source file ai.js as the worker’s script.
-- Application and worker can communicate with each other by sending messages to each other
+This has the effect of spawning a new concurrent thread of execution with its own separate event queue, using the source file ai.js as the worker’s script.
+<br/>
+Application and worker can communicate with each other by sending messages to each other
 </div>
 
 ```
@@ -990,7 +991,6 @@ Member.prototype.inNetwork = function (other) {
     }
     return false;
 };
-
 ```
 
 +++
@@ -1025,9 +1025,9 @@ Member.prototype.inNetwork = function (other, callback) {
 
 ### Item 66: Use a Counter to Perform Concurrent Operations
 
+- Concurrent logic is subtle and easy to get wrong
 +++
 
-- Concurrent logic is subtle and easy to get wrong
 
 ```
 function downloadAllAsync(urls, onsuccess, onerror) {
