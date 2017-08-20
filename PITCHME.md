@@ -578,14 +578,14 @@ Maybe you are thinking why to use prototype? just do something like this:
 
 ```
 function User(name, passwordHash) {
-this.name = name; 
-this.passwordHash = passwordHash; 
-this.toString = function () {
-    return "[User " + this.name + "]";
-};
-    this.checkPassword = function (password) {
-        return hash(password) === this.passwordHash;
+    this.name = name; 
+    this.passwordHash = passwordHash; 
+    this.toString = function () {
+        return "[User " + this.name + "]";
     };
+        this.checkPassword = function (password) {
+            return hash(password) === this.passwordHash;
+        };
 }
 ```
 
@@ -639,8 +639,8 @@ people; // ["alice: 34", "bob: 24", "chris: 62"]
 ```
 
 +++
-- Object also inherits properties from its prototype object
-- Properties on a prototype object can cause unexpected properties to appear when enumerating dictionary entries. (`prototype pollution`)
+- <span style="font-size:1.5rem"> Object also inherits properties from its prototype object </span>
+- <span style="font-size:1.5rem"> Properties on a prototype object can cause unexpected properties to appear when enumerating dictionary entries. (`prototype pollution`) </span>
 
 ```
 var dict = new Array();
@@ -707,6 +707,7 @@ Object.getPrototypeOf(o) === null; // true
 <span style="font-size:1.5rem;">
 The `Object.keys()` method returns an array of a given object's own enumerable properties, in the same order as that provided by a `for...in` loop (the difference being that a for-in loop enumerates properties in the prototype chain as well.
 </span>
+<br/>
 <span style="font-size:1.5rem;">
 Add methods as non enumerable
 </span>
@@ -921,11 +922,12 @@ Asynchronous APIs return immediately before their callbacks are invoked.
 Efficiency is not a concern that’s unique to JavaScript. But event-based programming does impose particular constraints.
 </span>
 
-- <div style="font-size:1.5rem;">
+- <span style="font-size:1.5rem;">
 So what can you do if your application needs to perform expensive computations?
+</span>
 <br/>
-Perhaps the simplest approach is to use a concurrency mechanism like the web client platform’s Worker API.
-</div>
+<span style="font-size:1.5rem;"> Perhaps the simplest approach is to use a concurrency mechanism like the web client platform’s Worker API.
+</span>
 
 +++
 
