@@ -922,12 +922,10 @@ Asynchronous APIs return immediately before their callbacks are invoked.
 Efficiency is not a concern that’s unique to JavaScript. But event-based programming does impose particular constraints.
 </span>
 
-- <span style="font-size:1.5rem;">
-So what can you do if your application needs to perform expensive computations?
-</span>
+- So what can you do if your application needs to perform expensive computations?
 <br/>
-<span style="font-size:1.5rem;"> Perhaps the simplest approach is to use a concurrency mechanism like the web client platform’s Worker API.
-</span>
+Perhaps the simplest approach is to use a concurrency mechanism like the web client platform’s Worker API.
+
 
 +++
 
