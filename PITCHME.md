@@ -922,10 +922,12 @@ Asynchronous APIs return immediately before their callbacks are invoked.
 Efficiency is not a concern that’s unique to JavaScript. But event-based programming does impose particular constraints.
 </span>
 
-- So what can you do if your application needs to perform expensive computations?
+- <span style="font-size:2rem;">
+So what can you do if your application needs to perform expensive computations?
+</span>
 <br/>
-Perhaps the simplest approach is to use a concurrency mechanism like the web client platform’s Worker API.
-
+<span style="font-size:2rem;"> Perhaps the simplest approach is to use a concurrency mechanism like the web client platform’s Worker API.
+</span>
 
 +++
 
@@ -1017,9 +1019,9 @@ Member.prototype.inNetwork = function (other, callback) {
     setTimeout(next, 0); // schedule the first iteration 
 };
 ```
-<div style="font-size:1.5rem">
-- next(): performing a single iteration of the loop and then scheduling the next iteration
-- `setTimeout`: add events to queue.
+- <div style="font-size:1.5rem"> next(): performing a single iteration of the loop and then scheduling the next iteration </div>
+- <div style="font-size:1.5rem">
+`setTimeout`: add events to queue.
 </div>
 
 ---
