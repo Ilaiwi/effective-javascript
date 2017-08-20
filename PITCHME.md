@@ -173,7 +173,7 @@ function swap(a, i, j) {
     a[j] = temp;
 }
 ```
-<span style="font-size:1.8rem;">
+<span style="font-size:1.5rem;">
     Purposefully creating global variables is bad style, but accidentally creating global variables can be a downright disaster.
 <span/>
 
@@ -219,9 +219,6 @@ f("bananas"); // "peanut butter and bananas"
 f("marshmallows"); // "peanut butter and marshmallows"
 ```
 
-<span style="font-size:1.8rem;">
-They also internally store any variables they may refer to that are defined in their enclosing scopes.
-</span>
 +++
 
 - They can update the values of outer variables.
@@ -241,7 +238,7 @@ b.set(98.6);
 b.get(); // 98.6 
 b.type(); // "number"
 ```
-<span style="font-size:1.8rem;">
+<span style="font-size:1.5rem;">
 Closures actually store references to their outer variables, rather than copying their values.
 </span>
 ---
@@ -269,7 +266,7 @@ function isWinner(player, others) {
 }
 ```
 
-<span style="font-size:1.8rem;">
+<span style="font-size:1.5rem;">
 the inner declaration of player simply redeclares a variable that was already in scope
 </span>
 +++
@@ -327,7 +324,9 @@ The programmer may have intended for it to produce 10, but it actually produces 
 _Closures store their outer variables by reference, not by value._
 
 
-+++IIFE
++++
+
+IIFE
 
 ```
 function wrapElements(a) {
@@ -480,13 +479,14 @@ var source = ["867", "-", "5309"];
 source.forEach(buffer.add); // error: entries is undefined
 ```
 
-<span style="font-size:1.8rem">
+<span style="font-size:1.5rem">
 forEach uses the global object as the default receiver.
 </span>
 +++
 ##### Solution
 ```
-var source = ["867", "-", "5309"]; source.forEach(function(s) {
+var source = ["867", "-", "5309"]; 
+source.forEach(function(s) {
     buffer.add(s);
 });
 buffer.join(); // "867-5309"
@@ -504,7 +504,7 @@ var source = ["867", "-", "5309"];
 source.forEach(buffer.add.bind(buffer)); 
 buffer.join(); // "867-5309"
 ```
-<span style="font-size:1.8rem">
+<span style="font-size:1.5rem">
 Keep in mind that buffer.add.bind(buffer) creates a new function rather than modifying the buffer.add function.
 </span>
 ---
@@ -530,7 +530,7 @@ var urls = paths.map(function (path) {
 var urls = paths.map(simpleURL.bind(null, "http", siteDomain));
 ```
 
-<span style="font-size:1.8rem">
+<span style="font-size:1.5rem">
 when the result of `simpleURL.bind` is called with a single argument path, the function delegates to `simpleURL("http", siteDomain, path)`.
 </span>
 ---
@@ -704,10 +704,10 @@ Object.getPrototypeOf(o) === null; // true
 ```
 
 +++
-<span style="font-size:1.8rem;">
+<span style="font-size:1.5rem;">
 The `Object.keys()` method returns an array of a given object's own enumerable properties, in the same order as that provided by a `for...in` loop (the difference being that a for-in loop enumerates properties in the prototype chain as well.
 </span>
-<span style="font-size:1.8rem;">
+<span style="font-size:1.5rem;">
 Add methods as non enumerable
 </span>
 ```
@@ -767,7 +767,7 @@ function Server(port, hostname) {
     hostname = String(hostname || "localhost");
 }
 ```
-<span style="font-size:1.8rem;">
+<span style="font-size:1.5rem;">
 This version uses the logical `OR` operator `(||)`, which returns the first argument if it is a truthy value and otherwise returns its second argument.
 </span>
 +++
@@ -887,7 +887,7 @@ function downloadOneAsync(urls, onsuccess, onerror) {
     throw new Error("all downloads failed");
 }
 ```
-<span style="font-size:1.8rem;">
+<span style="font-size:1.5rem;">
 So we need to implement something that acts like a loop, but that doesn’t continue executing until we explicitly say so.
 </span>
 +++
@@ -907,7 +907,7 @@ function downloadOneAsync(urls, onsuccess, onfailure) {
     tryNextURL(0);
 }
 ```
-<div style="font-size:1.8rem;">
+<div style="font-size:1.5rem;">
 Could a `stack overflow` occure ?
 Asynchronous APIs return immediately before their callbacks are invoked.
 </div>
@@ -921,7 +921,7 @@ Asynchronous APIs return immediately before their callbacks are invoked.
 Efficiency is not a concern that’s unique to JavaScript. But event-based programming does impose particular constraints.
 </span>
 
-- <div style="font-size:1.8rem;">
+- <div style="font-size:1.5rem;">
 So what can you do if your application needs to perform expensive computations?
 <br/>
 Perhaps the simplest approach is to use a concurrency mechanism like the web client platform’s Worker API.
@@ -1054,6 +1054,7 @@ function downloadAllAsync(urls, onsuccess, onerror) {
     });
 }
 ```
+
 +++
 ```
 var filenames = [
